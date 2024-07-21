@@ -1,4 +1,32 @@
 ### IntelliJ IDEA ###
+Here's a .gitignore file for your IntelliJ IDEA Spring Boot project:
+
+# IntelliJ IDEA files
+.idea/
+
+# Target directory (can vary based on build tool)
+target/
+
+# Gradle specific files
+/build/
+
+# Maven specific files (if applicable)
+*.iml
+*.iws
+
+# Locally stored "launch configurations"
+*.launch
+
+# Caches and temporary files
+*.tmp
+*.log
+
+# OS specific
+# (adjust based on your system)
+.DS_Store
+
+# IDE specific class output (might not be needed)
+out/
 
 ### Eclipse ###
 .apt_generated
