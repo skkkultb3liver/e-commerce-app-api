@@ -2,8 +2,8 @@ spring:
 
     data:
         mongodb:
-            username: bloodxxet
-            password: bloodxxet
+            username: root
+            password: pass
             host: localhost
             port: 27017
             database: customer

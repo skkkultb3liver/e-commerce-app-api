@@ -15,6 +15,3 @@ create table if not exists product
     price numeric(38, 2),
     category_id bigserial constraint fk1zzz references category
 );
-
-create sequence if not exists category_seq increment by 50;
-create sequence if not exists product_seq increment by 50;

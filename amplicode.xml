@@ -7,6 +7,11 @@
           <package value="com.bloodxxet.ecommerce" />
         </packages>
       </persistence-unit>
+      <persistence-unit moduleName="order" name="Default">
+        <packages>
+          <package value="com.bloodxxet.ecommerce" />
+        </packages>
+      </persistence-unit>
     </persistence-units>
   </component>
 </project>

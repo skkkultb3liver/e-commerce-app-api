@@ -1,9 +1,9 @@
 spring:
 
     datasource:
-        url: jdbc:postgresql://localhost:5432/product
-        username: bloodxxet
-        password: bloodxxet
+        url: jdbc:postgresql://localhost:5430/product
+        username: root
+        password: pass
         driver-class-name: org.postgresql.Driver
 
     jpa:

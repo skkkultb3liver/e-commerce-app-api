@@ -1,4 +1,4 @@
--- Заполнение таблицы product
+-- -- Заполнение таблицы product
 insert into product (title, description, quantity, price, category_id) values
                                                                            ('Smartphone', 'Latest model smartphone with 128GB storage', 50, 699.99, 1),
                                                                            ('Laptop', '15-inch laptop with 16GB RAM and 512GB SSD', 30, 1199.99, 1),
