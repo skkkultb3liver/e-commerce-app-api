@@ -1,6 +1,5 @@
 package com.bloodxxet.ecommerce.product.mapper;
 
-import com.bloodxxet.ecommerce.product.dto.ProductPurchaseRequest;
 import com.bloodxxet.ecommerce.product.dto.ProductPurchaseResponse;
 import com.bloodxxet.ecommerce.product.dto.ProductRequest;
 import com.bloodxxet.ecommerce.product.dto.ProductResponse;
@@ -16,6 +15,7 @@ public class ProductMapper {
         if (request == null) return null;
 
         Product product = Product.builder()
+                .id(request.id())
                 .title(request.title())
                 .price(request.price())
                 .description(request.description())
