@@ -45,109 +45,61 @@ services:
         networks:
             - microservices-net
 
-    mongo:
-        container_name: mongo
+    mongodb:
+        container_name: mongo_db
         image: mongo:7.0.12
-        restart: unless-stopped
+        restart: "no"
         ports:
-            - "27017:27017"
+            - "27019:27017"
         volumes:
-            - mongo_data:/data/db
+            - mongodb_data:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: pass
+            MONGO_INITDB_DATABASE: mydb
         healthcheck:
             test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
             interval: 10s
             timeout: 5s
             start_period: 10s
-            retries: 5
-
-    mongo-express:
-        container_name: mongo-express
-        image: mongo-express:1.0.2
-        restart: always
-        ports:
-            - "8081:8081"
-        environment:
-            ME_CONFIG_BASICAUTH_USERNAME: me_root
-            ME_CONFIG_BASICAUTH_PASSWORD: me_pass
-            ME_CONFIG_MONGODB_SERVER: mongo
-        healthcheck:
-            test: wget --no-verbose --tries=1 --spider http://localhost:8081/status || exit -1
-            interval: 10s
-            timeout: 5s
-            start_period: 60s
-            retries: 5
-        depends_on:
-            - mongo
+            retries: 1
 
     zookeeper:
-        container_name: zookeeper
         image: confluentinc/cp-zookeeper:latest
-        restart: "no"
-        ports:
-            - "2181:2181"
-        volumes:
-            - zookeeper_data:/data
+        container_name: zookeeper
         environment:
             ZOOKEEPER_SERVER_ID: 1
             ZOOKEEPER_CLIENT_PORT: 2181
             ZOOKEEPER_TICK_TIME: 2000
-        healthcheck:
-            test: nc -z 127.0.0.1 2181 || exit -1
-            interval: 10s
-            timeout: 5s
-            start_period: 10s
-            retries: 5
+        ports:
+            - "22181:2181"
         networks:
             - microservices-net
-        labels:
-            amplicode.image: zookeeper
 
     kafka:
-        container_name: kafka
         image: confluentinc/cp-kafka:latest
+        container_name: ms_kafka
         ports:
             - "9092:9092"
-        volumes:
-            - kafka_data:/var/lib/kafka/data
+        depends_on:
+            - zookeeper
         environment:
-            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
             KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
             KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
             KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-            KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-        healthcheck:
-            test: kafka-topics --bootstrap-server localhost:29092 --list
-            interval: 10s
-            timeout: 5s
-            start_period: 30s
-            retries: 5
-        depends_on:
-            - zookeeper
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
         networks:
             - microservices-net
-        labels:
-            amplicode.image: confluent/kafka
-
-    mail-dev:
-        container_name: ms-mail-dev
-        image: maildev/maildev
-        ports:
-            - 1080:1080
-            - 1025:1025
-
 
 networks:
     microservices-net:
         driver: bridge
 
 volumes:
-    mongo_data:
     postgresql_data:
     pgadmin_data:
     zookeeper_data:
     kafka_data:
+    mongodb_data:

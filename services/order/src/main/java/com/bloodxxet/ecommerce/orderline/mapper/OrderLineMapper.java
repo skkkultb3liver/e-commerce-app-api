@@ -2,6 +2,7 @@ package com.bloodxxet.ecommerce.orderline.mapper;
 
 import com.bloodxxet.ecommerce.order.entity.Order;
 import com.bloodxxet.ecommerce.orderline.dto.OrderLineRequest;
+import com.bloodxxet.ecommerce.orderline.dto.OrderLineResponse;
 import com.bloodxxet.ecommerce.orderline.entity.OrderLine;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,15 @@ public class OrderLineMapper {
                 .build();
 
         return orderLine;
+    }
+
+    public OrderLineResponse fromEntityToResponse(OrderLine orderLine) {
+
+        if (orderLine == null) return null;
+
+        return new OrderLineResponse(
+            orderLine.getId(),
+            orderLine.getQuantity()
+        );
     }
 }

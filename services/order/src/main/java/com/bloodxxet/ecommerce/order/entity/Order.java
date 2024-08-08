@@ -26,8 +26,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reference;
-    private BigDecimal totalPrice;
-    private Integer totalQuantity;
+    private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;

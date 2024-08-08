@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderRequest(
@@ -15,7 +16,7 @@ public record OrderRequest(
         String reference,
 
         @Positive(message = "Order total amount should be positive")
-        Integer totalAmount,
+        BigDecimal totalAmount,
 
         @NotNull(message = "Payment method should be precised")
         PaymentMethod paymentMethod,

@@ -1,6 +1,7 @@
 package com.bloodxxet.ecommerce.order.mapper;
 
 import com.bloodxxet.ecommerce.order.dto.OrderRequest;
+import com.bloodxxet.ecommerce.order.dto.OrderResponse;
 import com.bloodxxet.ecommerce.order.entity.Order;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,25 @@ public class OrderMapper {
                 .id(request.id())
                 .customerId(request.customerId())
                 .reference(request.reference())
-                .totalQuantity(request.totalAmount())
+                .totalAmount(request.totalAmount())
                 .paymentMethod(request.paymentMethod())
                 .build();
 
         return order;
+    }
+
+    public OrderResponse orderToResponse(final Order order) {
+
+        if (order == null) return null;
+
+        return new OrderResponse(
+                order.getId(),
+                order.getReference(),
+                order.getTotalAmount(),
+                order.getPaymentMethod(),
+                order.getCustomerId()
+        );
+
     }
 
 }

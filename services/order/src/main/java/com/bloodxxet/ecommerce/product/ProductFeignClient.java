@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ProductFeignClient {
 
     @PostMapping("/purchase")
-    Optional<List<PurchaseRequest>> purchaseProducts(
+    List<PurchaseResponse> purchaseProducts(
             @RequestBody List<PurchaseRequest> requests
     );
 
