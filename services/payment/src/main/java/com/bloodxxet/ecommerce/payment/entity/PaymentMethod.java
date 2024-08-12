@@ -1,4 +1,4 @@
-package com.bloodxxet.ecommerce.order.entity;
+package com.bloodxxet.ecommerce.payment.entity;
 
 public enum PaymentMethod {
     SBERBANK,

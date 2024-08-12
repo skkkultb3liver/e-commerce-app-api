@@ -1,6 +1,6 @@
 spring:
     application:
-        name: cfg-server
+        name: config-server
     profiles:
         active: native
 
