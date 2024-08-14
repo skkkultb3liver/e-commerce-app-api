@@ -20,4 +20,4 @@ spring:
                 spring.json.type.mapping: paymentNotification:com.bloodxxet.ecommerce.notification.PaymentNotification
 
 server:
-    port: 8075
+    port: 8060

@@ -11,16 +11,14 @@ import com.bloodxxet.ecommerce.order.repository.OrderRepository;
 import com.bloodxxet.ecommerce.order.service.OrderService;
 import com.bloodxxet.ecommerce.orderline.dto.OrderLineRequest;
 import com.bloodxxet.ecommerce.orderline.service.OrderLineService;
-import com.bloodxxet.ecommerce.product.ProductClientRestTemplate;
+import com.bloodxxet.ecommerce.payment.PaymentClient;
+import com.bloodxxet.ecommerce.payment.PaymentRequest;
 import com.bloodxxet.ecommerce.product.ProductFeignClient;
 import com.bloodxxet.ecommerce.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderLineService orderLineService;
 
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     @Override
     public Long createOrder(OrderRequest request) {
@@ -57,7 +56,14 @@ public class OrderServiceImpl implements OrderService {
             );
         }
 
-        // todo Payment process
+        var paymentRequest = new PaymentRequest(
+                request.totalAmount(),
+                request.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+        paymentClient.requestOrderPayment(paymentRequest);
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
