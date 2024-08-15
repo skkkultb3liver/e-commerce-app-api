@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .order-details {
+            margin-bottom: 20px;
+        }
+        .order-details p {
+            margin: 5px 0;
+        }
+        .product-list {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-top: 20px;
+        }
+        .product-item {
+            margin-bottom: 10px;
+        }
+        .product-item span {
+            display: block;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Order Confirmation</h1>
+    <div class="order-details">
+        <p>Dear <strong th:text="${customerName}"></strong>,</p>
+        <p>Thank you for your order!</p>
+        <p>Your order reference is <strong th:text="${orderReference}"></strong>.</p>
+    </div>
+
+    <div class="product-list">
+        <h2>Products</h2>
+        <div th:each="product : ${products}" class="product-item">
+            <span><strong>Product Name:</strong> <span th:text="${product.name}"></span></span>
+            <span><strong>Quantity:</strong> <span th:text="${product.quantity}"></span></span>
+            <span><strong>Price:</strong> <span th:text="${product.price}"></span></span>
+        </div>
+    </div>
+
+    <div class="total">
+        Total Amount: <span th:text="${totalAmount}"></span>
+    </div>
+
+    <p>If you have any questions, please contact our support team.</p>
+</div>
+</body>
+</html>
