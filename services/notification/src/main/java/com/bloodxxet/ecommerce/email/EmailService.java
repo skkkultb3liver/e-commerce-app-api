@@ -4,8 +4,6 @@ import com.bloodxxet.ecommerce.kafka.order.Product;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.common.protocol.types.Field;
-import org.bouncycastle.util.encoders.UTF8;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,14 +13,12 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.bloodxxet.ecommerce.email.EmailTemplate.ORDER_CONFIRMATION;
-import static com.bloodxxet.ecommerce.email.EmailTemplate.PAYMENT_CONFIRMATION;
+import static com.bloodxxet.ecommerce.email.EmailTemplate.PAYMENT_NOTIFICATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE_RELATED;
 
@@ -50,7 +46,7 @@ public class EmailService {
 
         messageHelper.setFrom("contact@bloodxxet.com");
 
-        final String templateName = PAYMENT_CONFIRMATION.getTemplate();
+        final String templateName = PAYMENT_NOTIFICATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
@@ -60,7 +56,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariables(variables);
 
-        messageHelper.setSubject(PAYMENT_CONFIRMATION.getSubject());
+        messageHelper.setSubject(PAYMENT_NOTIFICATION.getSubject());
 
         try {
             String html = templateEngine.process(templateName, context);

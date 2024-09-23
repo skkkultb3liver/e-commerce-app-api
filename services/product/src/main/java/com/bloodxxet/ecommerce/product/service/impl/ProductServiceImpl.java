@@ -12,6 +12,7 @@ import com.bloodxxet.ecommerce.product.mapper.ProductMapper;
 import com.bloodxxet.ecommerce.product.repository.ProductRepository;
 import com.bloodxxet.ecommerce.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -36,11 +38,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductPurchaseResponse> purchaseProducts(List<ProductPurchaseRequest> requests) throws ProductPurchaseException {
 
+        log.info("trying to purchase products: {}", requests);
+
         List<Long> productIds = requests.stream()
                 .map(ProductPurchaseRequest::productId)
                 .toList();
 
+        log.info("product ids: {}", productIds);
+
         List<Product> storedProducts = productRepository.findAllByIdInOrderById(productIds);
+
+        log.info("found {} products", storedProducts.size());
 
         if (productIds.size() != storedProducts.size()) {
             throw new ProductPurchaseException("One or more products does not exists");

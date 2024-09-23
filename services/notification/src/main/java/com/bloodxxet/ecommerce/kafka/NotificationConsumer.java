@@ -2,7 +2,7 @@ package com.bloodxxet.ecommerce.kafka;
 
 import com.bloodxxet.ecommerce.email.EmailService;
 import com.bloodxxet.ecommerce.kafka.order.OrderConfirmation;
-import com.bloodxxet.ecommerce.kafka.payment.PaymentConfirmation;
+import com.bloodxxet.ecommerce.kafka.payment.PaymentNotification;
 import com.bloodxxet.ecommerce.notification.Notification;
 import com.bloodxxet.ecommerce.notification.NotificationRepository;
 import com.bloodxxet.ecommerce.notification.NotificationType;
@@ -24,24 +24,24 @@ public class NotificationConsumer {
 
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentNotification(
-            PaymentConfirmation paymentConfirmation
+            PaymentNotification paymentNotification
     ) throws MessagingException {
-        log.info("payment-topic :: Consuming payment confirmation: <{}>", paymentConfirmation);
+        log.info("payment-topic :: Consuming payment confirmation: <{}>", paymentNotification);
 
         repository.save(
                 Notification.builder()
-                        .type(NotificationType.PAYMENT_CONFIRMATION)
+                        .type(NotificationType.PAYMENT_NOTIFICATION)
                         .notificationDate(LocalDateTime.now())
-                        .paymentConfirmation(paymentConfirmation)
+                        .paymentNotification(paymentNotification)
                         .build()
         );
 
-        var customerName = paymentConfirmation.customerFirstName() + " " + paymentConfirmation.customerLastName();
+        var customerName = paymentNotification.customerFirstName() + " " + paymentNotification.customerLastName();
         emailService.sendPaymentSuccessEmail(
-                paymentConfirmation.customerEmail(),
+                paymentNotification.customerEmail(),
                 customerName,
-                paymentConfirmation.amount(),
-                paymentConfirmation.orderReference()
+                paymentNotification.amount(),
+                paymentNotification.orderReference()
         );
     }
 

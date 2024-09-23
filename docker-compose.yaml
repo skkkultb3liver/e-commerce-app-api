@@ -1,6 +1,6 @@
 services:
     postgresql:
-        container_name: postgres
+        container_name: e-app-psql
         image: postgres:16.3
         restart: unless-stopped
         ports:
@@ -22,7 +22,7 @@ services:
             - microservices-net
 
     pgadmin:
-        container_name: pgadmin
+        container_name: e-app-pgadm
         image: dpage/pgadmin4:8.10
         restart: always
         ports:
@@ -45,8 +45,8 @@ services:
         networks:
             - microservices-net
 
-    mongodb:
-        container_name: mongo_db
+    mongo:
+        container_name: e-app-mongo_db
         image: mongo:7.0.12
         restart: "no"
         ports:
@@ -64,9 +64,28 @@ services:
             start_period: 10s
             retries: 1
 
+    mongo-express:
+        container_name: e-app-mongo-expr
+        image: mongo-express:1.0.2
+        restart: always
+        ports:
+            - "8081:8081"
+        environment:
+            ME_CONFIG_BASICAUTH_USERNAME: root
+            ME_CONFIG_BASICAUTH_PASSWORD: root
+            ME_CONFIG_MONGODB_URL: mongodb://root:pass@mongo:27017/
+        healthcheck:
+            test: wget --no-verbose --tries=1 --spider http://localhost:8081/status || exit -1
+            interval: 10s
+            timeout: 5s
+            start_period: 60s
+            retries: 5
+        depends_on:
+            - mongo
+
     zookeeper:
         image: confluentinc/cp-zookeeper:latest
-        container_name: zookeeper
+        container_name: e-app-zookeeper
         environment:
             ZOOKEEPER_SERVER_ID: 1
             ZOOKEEPER_CLIENT_PORT: 2181
@@ -78,7 +97,7 @@ services:
 
     kafka:
         image: confluentinc/cp-kafka:latest
-        container_name: ms_kafka
+        container_name: e-app-kafka
         ports:
             - "9092:9092"
         depends_on:
@@ -94,11 +113,19 @@ services:
             - microservices-net
 
     mail-dev:
-        container_name: mail-dev
+        container_name: e-app-mail-dev
         image: maildev/maildev
         ports:
             - 1080:1080
             - 1025:1025
+
+    zipkin:
+        container_name: e-app-zipkin
+        image: openzipkin/zipkin
+        ports:
+            - 9411:9411
+        networks:
+            - microservices-net
 
 networks:
     microservices-net:

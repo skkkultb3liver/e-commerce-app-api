@@ -2,7 +2,7 @@ package com.bloodxxet.ecommerce.kafka.payment;
 
 import java.math.BigDecimal;
 
-public record PaymentConfirmation(
+public record PaymentNotification(
         String orderReference,
         BigDecimal amount,
         PaymentMethod paymentMethod,

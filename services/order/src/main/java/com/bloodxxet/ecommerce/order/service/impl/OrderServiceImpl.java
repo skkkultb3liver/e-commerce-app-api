@@ -63,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
                 order.getReference(),
                 customer
         );
+
         paymentClient.requestOrderPayment(paymentRequest);
 
         orderProducer.sendOrderConfirmation(

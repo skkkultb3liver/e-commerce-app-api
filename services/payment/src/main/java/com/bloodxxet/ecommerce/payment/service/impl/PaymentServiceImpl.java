@@ -7,10 +7,12 @@ import com.bloodxxet.ecommerce.payment.mapper.PaymentMapper;
 import com.bloodxxet.ecommerce.payment.repository.PaymentRepository;
 import com.bloodxxet.ecommerce.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository repository;
@@ -19,6 +21,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Long createPayment(PaymentRequest request) {
+
+        log.info("Create payment request: {}", request);
 
         var payment = repository.save(mapper.toPaymentEntity(request));
 

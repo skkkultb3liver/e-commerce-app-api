@@ -19,7 +19,7 @@ public class ProductController {
 
     private final ProductService service;
 
-    @PostMapping()
+    @PostMapping("/")
     public ResponseEntity<Long> createProductHandler(
             @RequestBody @Valid ProductRequest request
     ) {
@@ -40,7 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(service.getProductById(productId));
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<ProductResponse>> findAllProductsHandler() {
         return ResponseEntity.ok(service.findAllProducts());
     }

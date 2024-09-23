@@ -1,7 +1,7 @@
 package com.bloodxxet.ecommerce.notification;
 
 import com.bloodxxet.ecommerce.kafka.order.OrderConfirmation;
-import com.bloodxxet.ecommerce.kafka.payment.PaymentConfirmation;
+import com.bloodxxet.ecommerce.kafka.payment.PaymentNotification;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,6 +23,6 @@ public class Notification {
     private LocalDateTime notificationDate;
 
     private OrderConfirmation orderConfirmation;
-    private PaymentConfirmation paymentConfirmation;
+    private PaymentNotification paymentNotification;
 
 }

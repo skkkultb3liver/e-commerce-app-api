@@ -5,6 +5,7 @@ import com.bloodxxet.ecommerce.customer.dto.CustomerResponse;
 import com.bloodxxet.ecommerce.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -21,6 +23,7 @@ public class CustomerController {
     public ResponseEntity<String> createCustomerHandler(
             @Valid @RequestBody CustomerRequest request
     ) {
+        log.info("Create customer: {}", request);
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
 
